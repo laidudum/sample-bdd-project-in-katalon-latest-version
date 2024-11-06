@@ -8,3 +8,12 @@ Key features include:
 - Modular Design: Follows a modular structure to promote reusability and maintainability of test steps.
 
 This boilerplate serves as a reliable starting point for teams looking to adopt BDD practices in Katalon Studio, promoting collaboration between QA and business stakeholders.
+
+# How to Use
+1. Clone this project using your Katalon Studio
+
+![Screenshot 2024-11-06 at 17 13 39](https://github.com/user-attachments/assets/0074891a-e4c4-427f-9b69-cd16ee867e71)
+
+2. Run the Test from "Anywhere" (from Feature File, Test Case or Test Suite)
+
+https://github.com/user-attachments/assets/737ffcd7-ec0b-42df-ad48-204aa7b3b212
