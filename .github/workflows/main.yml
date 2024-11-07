@@ -11,8 +11,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-    - name: Check API Key
-      run: echo "API Key Length --> ${{ secrets.KATALON_API_KEY }}"
+    - name: Check API Key Length
+      run: echo "API Key Length --> ${#KATALON_API_KEY}"
+      shell: bash
       env:
         KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
     - name: Katalon Studio Github Action
@@ -20,4 +21,4 @@ jobs:
       with:
         version: '9.6.0'
         projectPath: '${{ github.workspace }}'
-        args: '-noSplash -retry=0 -testSuiteCollectionPath="Test Suites/Test Suite - Login" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
+        args: '-noSplash -retry=0 -testSuiteCollectionPath="Test Suites/Test Suite - Login" -apiKey=${{ env.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
