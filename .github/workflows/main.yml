@@ -12,7 +12,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Check API Key
-      run: echo "API Key Length: ${{ secrets.KATALON_API_KEY }}"
+      run: echo "API Key Length --> ${{ secrets.KATALON_API_KEY }}"
       env:
         KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
     - name: Katalon Studio Github Action
