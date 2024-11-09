@@ -47,10 +47,8 @@ jobs:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
           DISPLAY: ":99"
         run: |
-          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
-                   -testSuitePath="TestSuites/YourTestSuite" \
+          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console \
+                   -testSuitePath="Test Suites/Test Suite - Login" \
                    -apiKey=$KATALON_API_KEY \
-                   -reportFolder=Reports \
-                   -reportFileName=report \
                    -retry=0 \
                    -browserType="Chrome (headless)"
