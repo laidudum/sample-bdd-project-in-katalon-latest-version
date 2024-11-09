@@ -17,23 +17,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Install Katalon Runtime Engine
+      # Step 2: Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+
+      # Step 3: Install Katalon Runtime Engine
       - name: Download Katalon Runtime Engine
         run: |
           wget https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
           tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
           chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
-      # Step 3: Set up Katalon license and environment variables
+
+      # Step 4: Set up Katalon license and environment variables
       - name: Set up environment
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # Tambahkan API Key di Secrets GitHub Actions
         run: |
           export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_64-10.0.0
 
-      # Step 4: Execute Katalon Test Suite
+      # Step 5: Execute Katalon Test Suite
       - name: Run Katalon Test Suite
         run: |
-          katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
+          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
                    -testSuitePath=TestSuites/YourTestSuite \
                    -apiKey=$KATALON_API_KEY \
                    -reportFolder=Reports \
