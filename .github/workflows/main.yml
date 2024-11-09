@@ -1,24 +1,49 @@
-name: Executing a Katalon Project on GitHub Actions
+name: Run Katalon Tests
+
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: windows-latest
+  katalon-test:
+    runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Check API Key Length
-      run: echo "API Key Length --> ${#KATALON_API_KEY}"
-      shell: bash
-      env:
-        KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
-    - name: Katalon Studio Github Action
-      uses: katalon-studio/katalon-studio-github-action@v4.0
-      with:
-        version: '9.6.0'
-        projectPath: '${{ github.workspace }}'
-        args: '-noSplash -retry=0 -testSuiteCollectionPath="Test Suites/Test Suite - Login" -apiKey="${{ secrets.KATALON_API_KEY }}" --config -webui.autoUpdateDrivers=true'
+      # Step 1: Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Install Katalon Runtime Engine
+      - name: Download Katalon Runtime Engine
+        run: |
+          wget https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
+          tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
+          chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
+      # Step 3: Set up Katalon license and environment variables
+      - name: Set up environment
+        env:
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # Tambahkan API Key di Secrets GitHub Actions
+        run: |
+          export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_$KATALON_VERSION
+
+      # Step 4: Execute Katalon Test Suite
+      - name: Run Katalon Test Suite
+        run: |
+          katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
+                   -testSuitePath=TestSuites/YourTestSuite \
+                   -apiKey=$KATALON_API_KEY \
+                   -reportFolder=Reports \
+                   -reportFileName=report \
+                   -retry=0 \
+                   -browserType=Chrome
+
+      # Step 5: Upload test report as an artifact
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: Katalon Reports
+          path: Reports
