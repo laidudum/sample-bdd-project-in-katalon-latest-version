@@ -30,20 +30,25 @@ jobs:
           tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
           chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
 
-      # Step 4: Set up environment variables
+      # Step 4: Install Xvfb
+      - name: Install Xvfb
+        run: sudo apt-get install -y xvfb
+
+      # Step 5: Set up environment variables and start Xvfb
       - name: Set up environment
         env:
-          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # API Key Katalon
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
         run: |
-          export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_64-10.0.0
+          export DISPLAY=:99
+          Xvfb :99 -screen 0 1024x768x24 &
 
-      # Step 5: Execute Katalon Test Suite in headless mode
+      # Step 6: Execute Katalon Test Suite in headless mode
       - name: Run Katalon Test Suite
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
         run: |
-          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console \
-                   -testSuitePath="Test Suites/Test Suite - Login" \
+          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
+                   -testSuitePath="TestSuites/YourTestSuite" \
                    -apiKey=$KATALON_API_KEY \
                    -reportFolder=Reports \
                    -reportFileName=report \
