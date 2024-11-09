@@ -28,7 +28,7 @@ jobs:
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # Tambahkan API Key di Secrets GitHub Actions
         run: |
-          export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_$KATALON_VERSION
+          export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_64-10.0.0
 
       # Step 4: Execute Katalon Test Suite
       - name: Run Katalon Test Suite
@@ -40,10 +40,3 @@ jobs:
                    -reportFileName=report \
                    -retry=0 \
                    -browserType=Chrome
-
-      # Step 5: Upload test report as an artifact
-      - name: Upload Test Reports
-        uses: actions/upload-artifact@v2
-        with:
-          name: Katalon Reports
-          path: Reports
