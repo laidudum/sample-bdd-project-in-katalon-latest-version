@@ -30,20 +30,22 @@ jobs:
           tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
           chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
 
-      # Step 4: Set up Katalon license and environment variables
+      # Step 4: Set up environment variables
       - name: Set up environment
         env:
-          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # Tambahkan API Key di Secrets GitHub Actions
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }} # API Key Katalon
         run: |
           export PATH=$PATH:$(pwd)/Katalon_Studio_Engine_Linux_64-10.0.0
 
-      # Step 5: Execute Katalon Test Suite
+      # Step 5: Execute Katalon Test Suite in headless mode
       - name: Run Katalon Test Suite
+        env:
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
         run: |
-          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
-                   -testSuitePath=TestSuites/YourTestSuite \
+          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console \
+                   -testSuitePath="Test Suites/Test Suite - Login" \
                    -apiKey=$KATALON_API_KEY \
                    -reportFolder=Reports \
                    -reportFileName=report \
                    -retry=0 \
-                   -browserType=Chrome
+                   -browserType="Chrome (headless)"
