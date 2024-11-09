@@ -34,18 +34,18 @@ jobs:
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      # Step 5: Set up environment variables and start Xvfb
-      - name: Set up environment
-        env:
-          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
+      # Step 5: Start Xvfb and set DISPLAY
+      - name: Start Xvfb
         run: |
           export DISPLAY=:99
           Xvfb :99 -screen 0 1024x768x24 &
+          sleep 3
 
       # Step 6: Execute Katalon Test Suite in headless mode
       - name: Run Katalon Test Suite
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
+          DISPLAY: ":99"
         run: |
           ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -projectPath=$(pwd)/path/to/your_project.prj \
                    -testSuitePath="TestSuites/YourTestSuite" \
