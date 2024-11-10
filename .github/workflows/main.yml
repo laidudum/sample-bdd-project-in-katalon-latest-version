@@ -1,60 +1,19 @@
-name: Run Katalon Tests
-
+name: CI
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
-  katalon-test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30  # Menetapkan batas waktu 30 menit untuk job ini
-
+  build:
+    runs-on: windows-latest
     steps:
-      # Step 1: Checkout repository
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Step 2: Set up Java
-      - name: Set up Java
-        uses: actions/setup-java@v1
-        with:
-          java-version: '11'
-
-      # Step 3: Install Katalon Runtime Engine
-      - name: Download Katalon Runtime Engine
-        run: |
-          wget https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
-          tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
-          chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
-
-      # Step 4: Install dbus-x11 to avoid accessibility issues
-      - name: Install dbus-x11
-        run: sudo apt-get install -y dbus-x11
-
-      # Step 5: Install Xvfb
-      - name: Install Xvfb
-        run: sudo apt-get install -y xvfb
-
-      # Step 6: Start Xvfb and set DISPLAY with additional options
-      - name: Start Xvfb
-        run: |
-          export DISPLAY=:99
-          Xvfb :99 -ac -screen 0 1024x768x24 &
-          sleep 3
-
-      # Step 7: Execute Katalon Test Suite in headless mode with debug logging
-      - name: Run Katalon Test Suite
-        env:
-          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
-          DISPLAY: ":99"
-        run: |
-          ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console \
-                   -testSuitePath="Test Suites/Test Suite - Login" \
-                   -apiKey=$KATALON_API_KEY \
-                   -retry=0 \
-                   -browserType="Chrome (headless)" \
-                   -consoleLog
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Katalon Studio Github Action
+      uses: katalon-studio/katalon-studio-github-action@v2.1
+      with:
+          version: '7.5.5'
+          projectPath: '${{ github.workspace }}'
+          args: '-noSplash -retry=0 -testSuiteCollectionPath="Test Suites/Simple Test Suite Collection" -apiKey= ${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
