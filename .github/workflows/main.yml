@@ -39,14 +39,14 @@ jobs:
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      # Step 6: Start Xvfb and set DISPLAY
+      # Step 6: Start Xvfb and set DISPLAY with additional options
       - name: Start Xvfb
         run: |
           export DISPLAY=:99
-          Xvfb :99 -screen 0 1024x768x24 &
+          Xvfb :99 -ac -screen 0 1024x768x24 &
           sleep 3
 
-      # Step 7: Execute Katalon Test Suite in headless mode
+      # Step 7: Execute Katalon Test Suite in headless mode with debug logging
       - name: Run Katalon Test Suite
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
@@ -56,4 +56,5 @@ jobs:
                    -testSuitePath="Test Suites/Test Suite - Login" \
                    -apiKey=$KATALON_API_KEY \
                    -retry=0 \
-                   -browserType="Chrome (headless)"
+                   -browserType="Chrome (headless)" \
+                   -consoleLog
