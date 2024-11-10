@@ -11,6 +11,7 @@ on:
 jobs:
   katalon-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # Menetapkan batas waktu 30 menit untuk job ini
 
     steps:
       # Step 1: Checkout repository
@@ -30,18 +31,22 @@ jobs:
           tar -xzf Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
           chmod -R 755 Katalon_Studio_Engine_Linux_64-10.0.0
 
-      # Step 4: Install Xvfb
+      # Step 4: Install dbus-x11 to avoid accessibility issues
+      - name: Install dbus-x11
+        run: sudo apt-get install -y dbus-x11
+
+      # Step 5: Install Xvfb
       - name: Install Xvfb
         run: sudo apt-get install -y xvfb
 
-      # Step 5: Start Xvfb and set DISPLAY
+      # Step 6: Start Xvfb and set DISPLAY
       - name: Start Xvfb
         run: |
           export DISPLAY=:99
           Xvfb :99 -screen 0 1024x768x24 &
           sleep 3
 
-      # Step 6: Execute Katalon Test Suite in headless mode
+      # Step 7: Execute Katalon Test Suite in headless mode
       - name: Run Katalon Test Suite
         env:
           KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
