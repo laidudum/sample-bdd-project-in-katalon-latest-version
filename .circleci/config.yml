@@ -24,12 +24,10 @@ jobs:
             echo "Checking Katalon network connection"
             curl -v -m 10 $SERVER_URL/info
 
-            echo "download kre"
+            echo "Download and Extract KRE"
             wget -O Katalon_Studio_Engine_Linux.tar.gz https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
             tar -xzf Katalon_Studio_Engine_Linux.tar.gz
-
-            echo "LIST ALL DIRECTORIES"
-            ls -alh / 
+            ls -la
 
             echo "Upgrading environments"
             echo "Upgrade Google Chrome"
