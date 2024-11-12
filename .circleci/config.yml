@@ -51,7 +51,7 @@ jobs:
             exit $ret_code
 
       - store_artifacts:
-          path: "$TEST_REPORT_PATH"
+          path: $TEST_REPORT_PATH
           destination: Reports
 
 workflows:
