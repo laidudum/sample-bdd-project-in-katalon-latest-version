@@ -18,6 +18,7 @@ jobs:
             TEST_SUITE_PATH="Test Suites/Test Suite - Login"
             BROWSER_TYPE="Chrome"
             EXECUTION_PROFILE="default"
+            TEST_REPORT_PATH="$(pwd)/Reports"
 
             echo "Download and Extract KRE"
             wget -O Katalon_Studio_Engine_Linux.tar.gz https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
@@ -50,7 +51,7 @@ jobs:
             exit $ret_code
 
       - store_artifacts:
-          path: /Reports/
+          path: "$TEST_REPORT_PATH"
           destination: Reports
 
 workflows:
