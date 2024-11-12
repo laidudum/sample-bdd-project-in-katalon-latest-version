@@ -26,7 +26,7 @@ jobs:
 
             echo "download kre"
             wget -O Katalon_Studio_Engine_Linux.tar.gz https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
-            tar –xvzf Katalon_Studio_Engine_Linux.tar.gz
+            tar -xzf Katalon_Studio_Engine_Linux.tar.gz
 
             echo "LIST ALL DIRECTORIES"
             ls -alh / 
