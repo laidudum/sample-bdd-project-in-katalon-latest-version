@@ -19,8 +19,6 @@ jobs:
           name: Download and Install Katalon Runtime Engine
           command: |
             wget -O kre.zip https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
-            unzip kre.zip -d /katalon
-            chmod +x /katalon/katalonc
             echo "what is up"
             ls
       - run:
