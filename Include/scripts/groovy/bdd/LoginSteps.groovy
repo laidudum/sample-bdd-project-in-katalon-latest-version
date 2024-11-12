@@ -48,11 +48,13 @@ class LoginSteps {
 	@When("User types username (.*) into the Username field")
 	def enterUsername(String username) {
 		WebUI.setText(findTestObject('Object Repository/Login Page/textFieldUsername'), username)
+		WebUI.takeScreenshotAsCheckpoint("User types username into the Username field")
 	}
 
 	@When("User types password (.*) into the Password field")
 	def enterPassword(String password) {
 		WebUI.setText(findTestObject('Object Repository/Login Page/textFieldPassword'), password)
+		WebUI.takeScreenshotAsCheckpoint("User types password into the Username field")
 	}
 
 	@When("User clicks the Submit button")
@@ -64,8 +66,10 @@ class LoginSteps {
 	def verifyMessageDisplayed(String expectedMessage) {
 		if (expectedMessage == "Logged In Successfully") {
 			WebUI.verifyElementText(findTestObject('Object Repository/Homepage/headerText'), expectedMessage)
+			WebUI.takeScreenshotAsCheckpoint("User verifies the Logged In Successfully message")
 		} else {
 			WebUI.verifyElementText(findTestObject('Object Repository/Login Page/messageError'), expectedMessage)
+			WebUI.takeScreenshotAsCheckpoint("User verifies the Log In Failed message")
 		}
 	}
 }

@@ -49,6 +49,6 @@ class Common {
 		WebUI.openBrowser('')
 		WebUI.maximizeWindow()
 		WebUI.navigateToUrl(GlobalVariable.url)
+		WebUI.takeScreenshotAsCheckpoint("User opens the login page")
 	}
-
 }

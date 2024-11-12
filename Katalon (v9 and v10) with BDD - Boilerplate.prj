@@ -13,7 +13,7 @@ This project is a boilerplate setup for Behavior-Driven Development (BDD) testin
    <modifiedEdition>FREE</modifiedEdition>
    <modifiedVersion>10.0.0</modifiedVersion>
    <pageLoadTimeout>0</pageLoadTimeout>
-   <projectFileLocation>/Users/shegha/Developer/Katalon/Katalon (v9 and v10) with BDD - Boilerplate/Katalon (v9 and v10) with BDD - Boilerplate.prj</projectFileLocation>
+   <projectFileLocation>/Users/shegha/Developer/Katalon/sample-bdd-project-in-katalon-latest-version/Katalon (v9 and v10) with BDD - Boilerplate.prj</projectFileLocation>
    <sourceContent>
       <sourceFolderList>
          <sourceFolderConfiguration>
