@@ -11,10 +11,16 @@ parameters:
 jobs:
   katalon-test:
     docker:
-      - image: katalonstudio/katalon-cli
+      - image: - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
     environment:
       SERVER_URL: << pipeline.parameters.server-url >>
     steps:
+      - run:
+          name: Download and Install Katalon Runtime Engine
+          command: |
+            wget -O Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
+            unzip Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz -d /katalon
+            chmod +x /katalon/katalonc
       - run:
           name: Run Katalon Test
           command: |
