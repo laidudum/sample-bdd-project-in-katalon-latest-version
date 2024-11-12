@@ -11,7 +11,7 @@ parameters:
 jobs:
   katalon-test:
     docker:
-      - image: - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
+      - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
     environment:
       SERVER_URL: << pipeline.parameters.server-url >>
     steps:
