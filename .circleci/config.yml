@@ -18,9 +18,10 @@ jobs:
       - run:
           name: Download and Install Katalon Runtime Engine
           command: |
-            wget -O kre.zip https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
+            wget -O https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
             echo "what is up"
-            ls
+            ls -alh
+            unzip Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
       - run:
           name: Run Katalon Test
           command: |
@@ -29,12 +30,6 @@ jobs:
 
             echo "Checking Katalon network connection"
             curl -v -m 10 $SERVER_URL/info
-
-            echo "verify katalon on docker"
-            ls -alh /katalon /usr/local/bin
-
-            echo "Verify katalonc location"
-            ls -alh
 
             echo "Upgrading environments"
             echo "Upgrade Google Chrome"
