@@ -14,7 +14,7 @@ jobs:
             set -o nounset
 
             echo "Preparing Test Parameters"
-            PROJECT_PATH="$(pwd)/*.prj"
+            PROJECT_PATH="$(pwd)/Katalon (v9 and v10) with BDD - Boilerplate.prj"
             TEST_SUITE_PATH="Test Suites/Test Suite - Login"
             BROWSER_TYPE="Chrome"
             EXECUTION_PROFILE="default"
