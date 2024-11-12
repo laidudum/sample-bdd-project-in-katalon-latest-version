@@ -1,19 +1,9 @@
 version: 2.1
 
-parameters:
-  kre-image-tag:
-    type: string
-    default: "latest"
-  server-url:
-    type: string
-    default: "https://testops.katalon.io"
-
 jobs:
   katalon-test:
     docker:
-      - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
-    environment:
-      SERVER_URL: << pipeline.parameters.server-url >>
+      - image: katalonstudio/katalon:latest
     steps:
       - checkout
       
@@ -23,8 +13,11 @@ jobs:
             set -x
             set -o nounset
 
-            echo "Checking Katalon network connection"
-            curl -v -m 10 $SERVER_URL/info
+            echo "Preparing Test Parameters"
+            PROJECT_PATH="$(pwd)/*.prj"
+            TEST_SUITE_PATH="Test Suites/Test Suite - Login"
+            BROWSER_TYPE="Chrome"
+            EXECUTION_PROFILE="default"
 
             echo "Download and Extract KRE"
             wget -O Katalon_Studio_Engine_Linux.tar.gz https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
@@ -52,8 +45,7 @@ jobs:
             echo "$(google-chrome --version)" >> $KATALON_VERSION_FILE || true
 
             echo "Executing test"
-            PROJECT_PATH="$(pwd)/Katalon (v9 and v10) with BDD - Boilerplate.prj"
-            xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -retry=0 -projectPath="$PROJECT_PATH" -testSuitePath="Test Suites/Test Suite - Login" -browserType="Chrome" -executionProfile="default" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
+            xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -retry=0 -projectPath="$PROJECT_PATH" -testSuitePath="$TEST_SUITE_PATH" -browserType="$BROWSER_TYPE" -executionProfile="$EXECUTION_PROFILE" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
             ret_code=$?
             
             exit $ret_code
