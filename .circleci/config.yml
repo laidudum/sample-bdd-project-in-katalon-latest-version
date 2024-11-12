@@ -11,17 +11,14 @@ parameters:
 jobs:
   katalon-test:
     docker:
-      - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
+      - image: - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
     environment:
       SERVER_URL: << pipeline.parameters.server-url >>
     steps:
       - run:
-          name: Download and Install Katalon Runtime Engine
+          name: see what
           command: |
-            wget -O https://download.katalon.com/10.0.0/Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
-            echo "what is up"
-            ls -alh
-            unzip Katalon_Studio_Engine_Linux_64-10.0.0.tar.gz
+            find . -print
       - run:
           name: Run Katalon Test
           command: |
@@ -30,6 +27,12 @@ jobs:
 
             echo "Checking Katalon network connection"
             curl -v -m 10 $SERVER_URL/info
+
+            echo "verify katalon on docker"
+            ls -alh /katalon /usr/local/bin
+
+            echo "Verify katalonc location"
+            ls -alh
 
             echo "Upgrading environments"
             echo "Upgrade Google Chrome"
