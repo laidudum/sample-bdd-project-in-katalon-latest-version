@@ -24,6 +24,9 @@ jobs:
             echo "Checking Katalon network connection"
             curl -v -m 10 $SERVER_URL/info
 
+            echo "Verify katalonc location"
+            ls -alh
+
             echo "Upgrading environments"
             echo "Upgrade Google Chrome"
             chrome_package='google-chrome-stable_current_amd64.deb'
