@@ -1,0 +1,57 @@
+version: 2.1
+
+parameters:
+  kre-image-tag:
+    type: string
+    default: "latest"
+  server-url:
+    type: string
+    default: "https://testops.katalon.io"
+
+jobs:
+  katalon-test:
+    docker:
+      - image: katalonstudio/katalon:<< pipeline.parameters.kre-image-tag >>
+    environment:
+      SERVER_URL: << pipeline.parameters.server-url >>
+    steps:
+      - run:
+          name: Run Katalon Test
+          command: |
+            set -x
+            set -o nounset
+
+            echo "Checking Katalon network connection"
+            curl -v -m 10 $SERVER_URL/info
+
+            echo "Upgrading environments"
+            echo "Upgrade Google Chrome"
+            chrome_package='google-chrome-stable_current_amd64.deb'
+            wget -O $chrome_package  https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            dpkg -i $chrome_package || apt -y -f install
+            
+            echo "Wrap Chrome binary"
+            WRAPPER_PATH=$(readlink -f /usr/bin/google-chrome)
+            BASE_PATH="$WRAPPER_PATH-base"
+            mv "$WRAPPER_PATH" "$BASE_PATH"
+            
+            cat > "$WRAPPER_PATH" \<<_EOF
+            #!/bin/bash
+            # Note: exec -a below is a bashism.
+            exec -a "\$0" "$BASE_PATH" --no-sandbox "\$@"
+            _EOF
+            chmod +x "$WRAPPER_PATH"
+            
+            echo "$(google-chrome --version)" >> $KATALON_VERSION_FILE || true
+
+            echo "Executing test"
+            xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" ./katalonc -noSplash -runMode=console -retry=0 -testSuitePath="Test Suites/Test Suite - Login" -browserType="Chrome" -executionProfile="default" -apiKey=$API_KEY --config -webui.autoUpdateDrivers=true
+            ret_code=$?
+            
+            exit $ret_code
+
+workflows:
+  version: 2.1
+  build_and_test:
+    jobs:
+      - katalon-test
