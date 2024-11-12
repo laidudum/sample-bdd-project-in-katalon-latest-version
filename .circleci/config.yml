@@ -18,7 +18,7 @@ jobs:
       - run:
           name: see what
           command: |
-            find . -print
+            ls -R
       - run:
           name: Run Katalon Test
           command: |
