@@ -15,6 +15,8 @@ jobs:
     environment:
       SERVER_URL: << pipeline.parameters.server-url >>
     steps:
+      - checkout
+      
       - run:
           name: Run Katalon Test
           command: |
@@ -50,7 +52,8 @@ jobs:
             echo "$(google-chrome --version)" >> $KATALON_VERSION_FILE || true
 
             echo "Executing test"
-            xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -retry=0 -testSuitePath="Test Suites/Test Suite - Login" -browserType="Chrome" -executionProfile="default" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
+            PROJECT_PATH="$(pwd)/Katalon (v9 and v10) with BDD - Boilerplate.prj"
+            xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" ./Katalon_Studio_Engine_Linux_64-10.0.0/katalonc -noSplash -runMode=console -retry=0 -projectPath="$PROJECT_PATH" -testSuitePath="Test Suites/Test Suite - Login" -browserType="Chrome" -executionProfile="default" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
             ret_code=$?
             
             exit $ret_code
