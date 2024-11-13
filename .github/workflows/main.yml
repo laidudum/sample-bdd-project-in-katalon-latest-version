@@ -32,7 +32,7 @@ jobs:
           xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" katalonc -noSplash -runMode=console -retry=0 -projectPath="$PROJECT_PATH" -testSuitePath="$TEST_SUITE_PATH" -browserType="$BROWSER_TYPE" -executionProfile="$EXECUTION_PROFILE" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
 
       - name: Upload Test Reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Reports
           path: ${{ github.workspace }}/Reports
