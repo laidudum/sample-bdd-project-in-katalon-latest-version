@@ -1,0 +1,38 @@
+name: Katalon Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  katalon-test:
+    runs-on: ubuntu-latest
+    container:
+      image: katalonstudio/katalon:latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Katalon Test Parameters
+        run: |
+          PROJECT_PATH="${{ github.workspace }}/Katalon (v9 and v10) with BDD - Boilerplate.prj"
+          TEST_SUITE_PATH="Test Suites/Test Suite - Login"
+          BROWSER_TYPE="Chrome"
+          EXECUTION_PROFILE="default"
+          TEST_REPORT_PATH="${{ github.workspace }}/Reports"
+
+      - name: Run Katalon Test
+        env:
+          KATALON_API_KEY: ${{ secrets.KATALON_API_KEY }}
+        run: |
+          DISPLAY_CONFIGURATION="1024x768x24"
+          xvfb-run -s "-screen 0 $DISPLAY_CONFIGURATION" katalonc -noSplash -runMode=console -retry=0 -projectPath="$PROJECT_PATH" -testSuitePath="$TEST_SUITE_PATH" -browserType="$BROWSER_TYPE" -executionProfile="$EXECUTION_PROFILE" -apiKey=$KATALON_API_KEY --config -webui.autoUpdateDrivers=true
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: Reports
+          path: ${{ github.workspace }}/Reports
