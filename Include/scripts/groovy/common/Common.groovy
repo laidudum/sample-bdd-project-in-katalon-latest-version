@@ -63,11 +63,11 @@ class Common {
 	def launchApp() {
 		switch (Mobile.getDeviceOS()) {
 			case 'Android':
-				Mobile.startApplication(RunConfiguration.getProjectDir() + '/Data Files/App Files/' + GlobalVariable.androidFileAppName, true)
+				Mobile.startApplication(RunConfiguration.getProjectDir() + '/App Files/' + GlobalVariable.androidFileAppName, true)
 				Mobile.takeScreenshotAsCheckpoint('User navigates to login page')
 				break
 			case 'iOS':
-				Mobile.startApplication(RunConfiguration.getProjectDir() + '/Data Files/App Files/' + GlobalVariable.iosFileAppName, true)
+				Mobile.startApplication(RunConfiguration.getProjectDir() + '/App Files/' + GlobalVariable.iosFileAppName, true)
 				Mobile.takeScreenshotAsCheckpoint('User navigates to login page')
 				break
 			case null:
