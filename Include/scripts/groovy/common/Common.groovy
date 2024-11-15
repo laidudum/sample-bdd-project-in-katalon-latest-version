@@ -42,6 +42,13 @@ import cucumber.api.java.en.Given
 import cucumber.api.java.en.Then
 import cucumber.api.java.en.When
 
+import com.kms.katalon.core.configuration.RunConfiguration as RunConfiguration
+
+import com.kms.katalon.core.appium.driver.AppiumDriverManager
+import io.appium.java_client.android.AndroidDriver
+import org.openqa.selenium.remote.DesiredCapabilities
+import com.kms.katalon.core.mobile.driver.MobileDriverType
+
 class Common {
 
 	@Given("User opens the login page")
@@ -50,5 +57,43 @@ class Common {
 		WebUI.maximizeWindow()
 		WebUI.navigateToUrl(GlobalVariable.url)
 		WebUI.takeScreenshotAsCheckpoint("User opens the login page")
+	}
+
+	@Given("User launches the Mobile App")
+	def launchApp() {
+		switch (Mobile.getDeviceOS()) {
+			case 'Android':
+				Mobile.startApplication(RunConfiguration.getProjectDir() + '/Data Files/App Files/' + GlobalVariable.androidFileAppName, true)
+				Mobile.takeScreenshotAsCheckpoint('User navigates to login page')
+				break
+			case 'iOS':
+				Mobile.startApplication(RunConfiguration.getProjectDir() + '/Data Files/App Files/' + GlobalVariable.iosFileAppName, true)
+				Mobile.takeScreenshotAsCheckpoint('User navigates to login page')
+				break
+			case null:
+				DesiredCapabilities capabilities = new DesiredCapabilities();
+				switch (true) {
+					case AppiumDriverManager.getRemoteWebDriverServerUrl().contains('kobiton'):
+						capabilities.setCapability("sessionName", GlobalVariable.kobitonSessionName);
+						capabilities.setCapability("sessionDescription", GlobalVariable.kobitonSessionDescription);
+						capabilities.setCapability("deviceOrientation", GlobalVariable.kobitonDeviceOrientation);
+						capabilities.setCapability("captureScreenshots", GlobalVariable.kobitonCaptureScreenshots);
+						capabilities.setCapability("app", GlobalVariable.kobitonApp)
+						capabilities.setCapability("deviceGroup", GlobalVariable.kobitonDeviceGroup);
+						capabilities.setCapability("deviceName", GlobalVariable.kobitonDeviceName);
+						capabilities.setCapability("platformVersion", GlobalVariable.kobitonPlatformVersion);
+						capabilities.setCapability("platformName", GlobalVariable.kobitonPlatformName);
+						capabilities.setCapability("autoGrantPermissions", GlobalVariable.kobitonAutoGrantPermissions);
+						capabilities.setCapability("kobi:retainDurationInSeconds", 0);
+						AppiumDriverManager.createMobileDriver(MobileDriverType.ANDROID_DRIVER, capabilities, new URL(AppiumDriverManager.getRemoteWebDriverServerUrl()))
+						break
+					case AppiumDriverManager.getRemoteWebDriverServerUrl().contains('browserstack'):
+						capabilities.setCapability("device", GlobalVariable.browserstackDevice);
+						capabilities.setCapability('app', GlobalVariable.browserstackApp);
+						AppiumDriverManager.createMobileDriver(MobileDriverType.ANDROID_DRIVER, capabilities, new URL(AppiumDriverManager.getRemoteWebDriverServerUrl()))
+						break
+				}
+				break;
+		}
 	}
 }

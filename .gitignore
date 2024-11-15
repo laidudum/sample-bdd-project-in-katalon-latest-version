@@ -23,3 +23,5 @@ build
 .svn/
 
 .DS_Store
+
+*.log

@@ -9,4 +9,74 @@
       <initValue>'https://practicetestautomation.com/practice-test-login/'</initValue>
       <name>url</name>
    </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'mda-2.1.0-24.apk'</initValue>
+      <name>androidFileAppName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>''</initValue>
+      <name>iosFileAppName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'Katalon Mobile App Test'</initValue>
+      <name>kobitonSessionName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'Automation Test for Mobile App'</initValue>
+      <name>kobitonSessionDescription</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'portrait'</initValue>
+      <name>kobitonDeviceOrientation</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>true</initValue>
+      <name>kobitonCaptureScreenshots</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'kobiton-store:v699116'</initValue>
+      <name>kobitonApp</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'KOBITON'</initValue>
+      <name>kobitonDeviceGroup</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'Pixel 6'</initValue>
+      <name>kobitonDeviceName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'14'</initValue>
+      <name>kobitonPlatformVersion</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'Android'</initValue>
+      <name>kobitonPlatformName</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>true</initValue>
+      <name>kobitonAutoGrantPermissions</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'Google Pixel 6'</initValue>
+      <name>browserstackDevice</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description></description>
+      <initValue>'bs://d2f2e39c10c9230d004b3c4cc78192e16105fac0'</initValue>
+      <name>browserstackApp</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>
