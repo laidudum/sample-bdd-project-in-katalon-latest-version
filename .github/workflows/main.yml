@@ -16,7 +16,7 @@ jobs:
       with:
           version: '9.6.0'
           projectPath: '${{ github.workspace }}'
-          args: '-noSplash -retry=0 -testSuitePath="Test Suites/Test Suite - Login" -browserType="Chrome" -executionProfile="default" -apiKey= ${{ secrets.KATALON_API_KEY }}  --config -webui.autoUpdateDrivers=true'
+          args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey= ${{ secrets.KATALON_API_KEY }}  --config -webui.autoUpdateDrivers=true'
     - name: Upload Katalon Reports
       if: always()
       uses: actions/upload-artifact@v4
