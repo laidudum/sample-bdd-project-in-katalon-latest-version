@@ -39,7 +39,11 @@ jobs:
 
         # Cari file HTML pertama untuk dijadikan index.html
         REPORT_FILE=$(find . -type f -name "*.html" | head -n 1)
-        cp "$REPORT_FILE" index.html
+
+        # Periksa apakah file index.html sudah ada
+        if [ ! -f index.html ] || [ "$REPORT_FILE" != "./index.html" ]; then
+          cp "$REPORT_FILE" index.html
+        fi
 
         # Inisialisasi git
         git init
