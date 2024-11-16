@@ -22,6 +22,13 @@ jobs:
         projectPath: '${{ github.workspace }}'
         args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
 
+    - name: Upload Katalon Reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+          name: Katalon-Reports
+          path: Reports/
+
     # 3. Deploy laporan ke GitHub Pages
     - name: Deploy to GitHub Pages
       if: success() # Deploy hanya jika build berhasil
