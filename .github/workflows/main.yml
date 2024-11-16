@@ -1,4 +1,5 @@
-name: Katalon Test
+name: Katalon Test and Deploy to GitHub Pages
+
 on:
   push:
     branches: [ main ]
@@ -9,34 +10,47 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
+    # 1. Checkout repository
     - name: Checkout
       uses: actions/checkout@v4
 
+    # 2. Jalankan tes Katalon
     - name: Run Katalon Tests
       uses: katalon-studio/katalon-studio-github-action@v4.0
       with:
-          version: '9.6.0'
-          projectPath: '${{ github.workspace }}'
-          args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
+        version: '9.6.0'
+        projectPath: '${{ github.workspace }}'
+        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
 
+    # 3. Simpan laporan sebagai artifact (opsional)
     - name: Upload Katalon Reports
       if: always()
       uses: actions/upload-artifact@v4
       with:
-          name: Katalon-Reports
-          path: Reports/
+        name: Katalon-Reports
+        path: Reports/
 
+    # 4. Deploy laporan ke GitHub Pages
     - name: Deploy to GitHub Pages
       if: success() # Deploy hanya jika build berhasil
       run: |
+        # Membuat direktori untuk laporan
         mkdir -p gh-pages
         cp -r Reports/* gh-pages/
         cd gh-pages
+
+        # Inisialisasi git
         git init
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor }}@users.noreply.github.com"
+        
+        # Commit laporan
         git add .
         git commit -m "Deploy Katalon Reports to GitHub Pages"
         git branch -M main
-        git remote add origin https://github.com/${{ github.repository }}.git
+
+        # Tambahkan remote dengan autentikasi token
+        git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
+
+        # Push ke branch `gh-pages`
         git push -f origin main:gh-pages
