@@ -29,10 +29,10 @@ jobs:
         # Membuat direktori untuk laporan
         mkdir -p gh-pages
 
-        # Cari folder yang mengandung file HTML
-        for dir in $(find Reports -type f -name "*.html" -exec dirname {} \; | sort -u); do
+        # Cari folder yang mengandung file HTML, dengan penanganan untuk spasi
+        find Reports -type f -name "*.html" -exec dirname {} \; | sort -u | while read -r dir; do
           # Salin folder yang relevan ke gh-pages
-          cp -r $dir/* gh-pages/
+          cp -r "$dir/"* gh-pages/
         done
 
         cd gh-pages
