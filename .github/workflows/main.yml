@@ -1,4 +1,4 @@
-name: Katalon Test and Deploy to GitHub Pages
+name: Katalon Test
 
 on:
   push:
@@ -10,11 +10,9 @@ jobs:
   build:
     runs-on: macos-latest
     steps:
-    # 1. Checkout repository
     - name: Checkout
       uses: actions/checkout@v4
 
-    # 2. Jalankan tes Katalon
     - name: Run Katalon Tests
       uses: katalon-studio/katalon-studio-github-action@v4.0
       with:
@@ -22,48 +20,38 @@ jobs:
         projectPath: '${{ github.workspace }}'
         args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
 
-    - name: Upload Katalon Reports
+    - name: Build Katalon Reports as Artifact
       if: always()
       uses: actions/upload-artifact@v4
       with:
           name: Katalon-Reports
           path: Reports/
 
-    # 3. Deploy laporan ke GitHub Pages
-    - name: Deploy to GitHub Pages
-      if: success() # Deploy hanya jika build berhasil
+    - name: Deploy Test Report to GitHub Pages
+      if: success()
       run: |
-        # Membuat direktori untuk laporan
         mkdir -p gh-pages
 
-        # Cari folder yang mengandung file HTML, dengan penanganan untuk spasi
         find Reports -type f -name "*.html" -exec dirname {} \; | sort -u | while read -r dir; do
-          # Salin folder yang relevan ke gh-pages
           cp -r "$dir/"* gh-pages/
         done
 
         cd gh-pages
 
-        # Cari file HTML pertama untuk dijadikan index.html
         REPORT_FILE=$(find . -type f -name "*.html" | head -n 1)
 
-        # Periksa apakah file index.html sudah ada
         if [ ! -f index.html ] || [ "$REPORT_FILE" != "./index.html" ]; then
           cp "$REPORT_FILE" index.html
         fi
 
-        # Inisialisasi git
         git init
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor }}@users.noreply.github.com"
         
-        # Commit semua file ke branch gh-pages
         git add .
         git commit -m "Deploy Katalon Reports to GitHub Pages"
         git branch -M main
 
-        # Tambahkan remote dengan autentikasi token
         git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
 
-        # Push ke branch gh-pages
         git push -f origin main:gh-pages
