@@ -2,12 +2,20 @@
 
 This project is a boilerplate setup for Behavior-Driven Development (BDD) testing in Katalon Studio, compatible with both versions 9 and 10. It provides a structured template designed to streamline the development and execution of BDD tests using Gherkin syntax. With this boilerplate, users can write human-readable scenarios that align with business requirements and convert them directly into automated test cases.
 
+## Project Overview
+
+This Katalon project is designed for both web and mobile application UI automation testing. For mobile automation, it is integrated with Kobiton, allowing for seamless testing across various mobile devices.
+
 Key features include:
 - Katalon Compatibility: Supports Katalon Studio v9 and v10, ensuring flexibility across different project setups.
 - BDD Integration: Uses Gherkin language for defining scenarios, making it easy for non-technical stakeholders to understand test cases.
 - Modular Design: Follows a modular structure to promote reusability and maintainability of test steps.
 
 This boilerplate serves as a reliable starting point for teams looking to adopt BDD practices in Katalon Studio, promoting collaboration between QA and business stakeholders.
+
+## Continuous Integration
+
+This project is integrated with GitHub Actions to automate the execution of web automation tests. The test results, including the Cucumber report, are available at the following URL: [Cucumber Report](https://depapp.github.io/sample-bdd-project-in-katalon-latest-version/).
 
 # How to Use
 1. Clone this project using your Katalon Studio
