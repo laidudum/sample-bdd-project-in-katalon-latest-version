@@ -13,12 +13,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Run Katalon Tests
-      uses: katalon-studio/katalon-studio-github-action@v4.0
+    - name: katalon testnya
+      uses: depapp/free-katalon-studio-github-actions@v1.0.0
       with:
         version: '9.6.0'
-        projectPath: '${{ github.workspace }}'
-        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey=${{ secrets.KATALON_API_KEY }} --config -webui.autoUpdateDrivers=true'
+        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" --config -webui.autoUpdateDrivers=true'
 
     - name: Build Katalon Reports as Artifact
       if: always()
@@ -26,32 +25,3 @@ jobs:
       with:
           name: Katalon-Reports
           path: Reports/
-
-    - name: Deploy Test Report to GitHub Pages
-      if: success()
-      run: |
-        mkdir -p gh-pages
-
-        find Reports -type f -name "*.html" -exec dirname {} \; | sort -u | while read -r dir; do
-          cp -r "$dir/"* gh-pages/
-        done
-
-        cd gh-pages
-
-        REPORT_FILE=$(find . -type f -name "*.html" | head -n 1)
-
-        if [ ! -f index.html ] || [ "$REPORT_FILE" != "./index.html" ]; then
-          cp "$REPORT_FILE" index.html
-        fi
-
-        git init
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor }}@users.noreply.github.com"
-        
-        git add .
-        git commit -m "Deploy Katalon Reports to GitHub Pages"
-        git branch -M main
-
-        git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.git
-
-        git push -f origin main:gh-pages
