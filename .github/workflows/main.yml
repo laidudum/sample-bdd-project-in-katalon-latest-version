@@ -17,7 +17,7 @@ jobs:
 
       with:
         version: '9.6.0'
-        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" --config -webui.autoUpdateDrivers=true'
+        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" -apiKey= ${{ secrets.API_KEY }} --config -webui.autoUpdateDrivers=true'
 
     - name: Build Katalon Reports as Artifact
       if: always()
