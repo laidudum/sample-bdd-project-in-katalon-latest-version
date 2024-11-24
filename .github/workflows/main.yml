@@ -13,10 +13,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Free Katalon Studio
-      uses: depapp/free-katalon-studio-github-actions@v1.3.0
+      uses: depapp/free-katalon-studio-github-actions@v1.4.0
       with:
-        args: '-noSplash -retry=0 -testSuitePath="Test Suites/Web/TS - Login" -browserType="Chrome" -executionProfile="default" --config -webui.autoUpdateDrivers=true'
-
+        testSuitePath: 'Test Suites/Web/TS - Login'
+        browserType: 'Chrome'
+        executionProfile: 'default'
     - name: Build Katalon Reports as Artifact
       if: always()
       uses: actions/upload-artifact@v4
